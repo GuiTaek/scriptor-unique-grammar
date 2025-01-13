@@ -47,14 +47,14 @@ dependencies {
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
-    implementation "maven.modrinth:scriptor-magicae:$scriptor_version-neoforge"
-
+    api "maven.modrinth:scriptor-magicae:$rootProject.scriptor_version-neoforge"
+    api "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 }
 
 processResources {
     inputs.property 'version', project.version
-    inputs.property 'scriptor_version', scriptor_version
-
+    inputs.property 'scriptor_version', rootProject.scriptor_version
+    inputs.property 'architecty_version', rootProject.architectury_api_version
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: project.version
         expand scriptor_version: scriptor_version

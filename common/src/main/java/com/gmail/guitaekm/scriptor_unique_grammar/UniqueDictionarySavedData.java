@@ -1,4 +1,4 @@
-package com.gmail.guitaekm;
+package com.gmail.guitaekm.scriptor_unique_grammar;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
