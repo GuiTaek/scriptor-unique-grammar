@@ -29,6 +29,10 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
+    maven {
+        name = "Kotlin for Forge"
+        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
+    }
     exclusiveContent {
         forRepository {
             maven {
@@ -47,14 +51,17 @@ dependencies {
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
-    api "maven.modrinth:scriptor-magicae:$rootProject.scriptor_version-neoforge"
-    api "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+
+    // change back the moment, it's published
+    // api "maven.modrinth:scriptor-magicae:$rootProject.scriptor_version-neoforge"
+    api files("libs/scriptor-unpublished-neoforge.jar")
+
+    modImplementation("com.ssblur.unfocused:unfocused-neoforge:${rootProject.unfocused_version}")
 }
 
 processResources {
     inputs.property 'version', project.version
     inputs.property 'scriptor_version', rootProject.scriptor_version
-    inputs.property 'architecty_version', rootProject.architectury_api_version
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: project.version
         expand scriptor_version: scriptor_version

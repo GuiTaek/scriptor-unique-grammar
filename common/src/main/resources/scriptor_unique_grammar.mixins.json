@@ -6,6 +6,7 @@
   "client": [
   ],
   "mixins": [
+    "DictionarySavedDataMixin"
   ],
   "injectors": {
     "defaultRequire": 1

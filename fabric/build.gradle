@@ -39,14 +39,20 @@ configurations {
 }
 
 dependencies {
+    modImplementation "net.fabricmc:fabric-language-kotlin:1.10.8+kotlin.1.9.0"
+
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
-    modApi "maven.modrinth:scriptor-magicae:$rootProject.scriptor_version-fabric"
+    // change back if the version is published on modrinth
+    // modApi "maven.modrinth:scriptor-magicae:$rootProject.scriptor_version-fabric"
+    modApi files("libs/scriptor-unpublished-fabric.jar")
 
-    modApi "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    // modApi "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+
+    modApi("com.ssblur.unfocused:unfocused-fabric:${rootProject.unfocused_version}")
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
@@ -55,7 +61,6 @@ dependencies {
 processResources {
     inputs.property 'version', project.version
     inputs.property 'scriptor_version', rootProject.scriptor_version
-    inputs.property 'architectury_version', rootProject.architectury_api_version
 
     filesMatching('fabric.mod.json') {
         expand version: project.version

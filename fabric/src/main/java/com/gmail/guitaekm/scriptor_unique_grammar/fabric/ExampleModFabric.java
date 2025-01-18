@@ -2,7 +2,7 @@ package com.gmail.guitaekm.scriptor_unique_grammar.fabric;
 
 import net.fabricmc.api.ModInitializer;
 
-import com.gmail.guitaekm.scriptor_unique_grammar.ExampleMod;
+import com.gmail.guitaekm.scriptor_unique_grammar.ScriptorUniqueGrammarMod;
 
 public final class ExampleModFabric implements ModInitializer {
     @Override
@@ -12,6 +12,6 @@ public final class ExampleModFabric implements ModInitializer {
         // Proceed with mild caution.
 
         // Run our common setup.
-        ExampleMod.init();
+        ScriptorUniqueGrammarMod.INSTANCE.init();
     }
 }

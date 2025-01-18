@@ -2,12 +2,12 @@ package com.gmail.guitaekm.scriptor_unique_grammar.neoforge;
 
 import net.neoforged.fml.common.Mod;
 
-import com.gmail.guitaekm.scriptor_unique_grammar.ExampleMod;
+import com.gmail.guitaekm.scriptor_unique_grammar.ScriptorUniqueGrammarMod;
 
-@Mod(ExampleMod.MOD_ID)
+@Mod(ScriptorUniqueGrammarMod.MOD_ID)
 public final class ExampleModNeoForge {
     public ExampleModNeoForge() {
         // Run our common setup.
-        ExampleMod.init();
+        ScriptorUniqueGrammarMod.INSTANCE.init();
     }
 }
