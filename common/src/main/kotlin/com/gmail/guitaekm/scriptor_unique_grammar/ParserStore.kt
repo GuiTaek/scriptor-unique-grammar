@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.Unique
 
 class ParserStore(dict: DictionarySavedData) {
 
-    val positions: WordPositions = WordPositions(dict)
-    val parser: UniqueParser = UniqueParser(
+    private val positions: WordPositions = WordPositions(dict)
+    private val parser: UniqueParser = UniqueParser(
         dict,
         this.positions
     )
@@ -19,6 +19,9 @@ class ParserStore(dict: DictionarySavedData) {
                 INSTANCE = ParserStore(dict)
             }
             return INSTANCE!!
+        }
+        fun getParser(dict: DictionarySavedData): UniqueParser {
+            return getInstance(dict).parser
         }
     }
 

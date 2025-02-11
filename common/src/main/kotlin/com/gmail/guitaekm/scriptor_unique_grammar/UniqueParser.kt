@@ -156,4 +156,53 @@ class UniqueParser(val dictionary: DictionarySavedData, val positions: WordPosit
         }
         return null
     }
+    fun generate(spell: Spell): String {
+        val mainSpellString: String = generateMainSpell(spell.subject, spell.spells.first())
+        val partialSpells: List<String> = spell
+            .spells
+            .slice(1..spell.spells.size - 1)
+            .map { partialSpell -> generatePartialSpell(partialSpell) }
+        val fullSpellList: MutableList<String> = mutableListOf(mainSpellString)
+        fullSpellList.addAll(partialSpells)
+        return fullSpellList.joinToString(" " + this.dictionary.getWord("other:and")!! + " ")
+    }
+    private fun generateMainSpell(subject: Subject, partialSpell: PartialSpell): String {
+        val actionWord: String = this.dictionary.getWord(partialSpell.action)!!
+        val actionId: String = this.dictionary.parseWord(actionWord)!!
+        val subjectWord: String = this.dictionary.getWord(subject)!!
+        val partialSpellString = generatePartialSpell(partialSpell)
+        return when (this.positions.content[actionId]!!) {
+            WordPosition.BEFORE -> "$partialSpellString $subjectWord"
+            WordPosition.AFTER -> "$subjectWord $partialSpellString"
+        }
+    }
+    private fun generatePartialSpell(partialSpell: PartialSpell): String {
+        val preActionDescriptors: MutableList<Descriptor> = ArrayList()
+        val aftActionDescriptors: MutableList<Descriptor> = ArrayList()
+        for (descriptor: Descriptor in partialSpell.descriptors) {
+            val descriptorWord: String = this.dictionary.getWord(descriptor)!!
+            val descriptorId: String = this.dictionary.parseWord(descriptorWord)!!
+            when (this.positions.content[descriptorId]!!) {
+                WordPosition.BEFORE -> preActionDescriptors.add(descriptor)
+                WordPosition.AFTER -> aftActionDescriptors.add(descriptor)
+            }
+        }
+        val preAction: String = preActionDescriptors
+            .joinToString(" ") {
+                descriptor -> this.dictionary.getWord(descriptor)!!
+            }
+        val aftAction: String = aftActionDescriptors
+            .joinToString(" ") {
+                descriptor -> this.dictionary.getWord(descriptor)!!
+            }
+        val resultSpell: MutableList<String> = ArrayList()
+        if (preAction != "") {
+            resultSpell.add(preAction)
+        }
+        resultSpell.add(this.dictionary.getWord(partialSpell.action)!!)
+        if (aftAction != "") {
+            resultSpell.add(aftAction)
+        }
+        return resultSpell.joinToString(" ")
+    }
 }

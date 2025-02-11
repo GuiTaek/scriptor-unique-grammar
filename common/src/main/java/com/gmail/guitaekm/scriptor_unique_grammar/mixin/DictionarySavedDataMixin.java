@@ -26,13 +26,17 @@ abstract public class DictionarySavedDataMixin {
             String text, CallbackInfoReturnable<Spell> cir
     ) {
         System.out.println("hello world");
-        System.out.println(
-                ParserStore
-                        .Companion
-                        .getInstance(scriptor_unique_grammar$self)
-                        .getParser()
-                        .parse(text)
-                        != null
-        );
+        Spell spell = ParserStore
+                .Companion
+                .getParser(scriptor_unique_grammar$self)
+                .parse(text);
+        System.out.println(spell != null);
+        if (spell != null) {
+            String spellText = ParserStore
+                    .Companion
+                    .getParser(scriptor_unique_grammar$self)
+                    .generate(spell);
+            System.out.println(spellText);
+        }
     }
 }
