@@ -11,5 +11,7 @@ import com.ssblur.scriptor.data.saved_data.DictionarySavedData
 public object ScriptorUniqueGrammarMod: ModInitializer("scriptor_unique_grammar") {
     public const val MOD_ID = "scriptor_unique_grammar"
     public val LOGGER = LogManager.getLogger()!!
-    fun init() { }
+    fun init() {
+        ParserStore.initializeEvents()
+    }
 }

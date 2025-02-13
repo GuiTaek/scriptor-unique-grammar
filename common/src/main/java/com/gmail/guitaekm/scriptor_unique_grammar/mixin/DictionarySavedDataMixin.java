@@ -5,6 +5,7 @@ import com.gmail.guitaekm.scriptor_unique_grammar.UniqueParser;
 import com.gmail.guitaekm.scriptor_unique_grammar.WordPositions;
 import com.ssblur.scriptor.data.saved_data.DictionarySavedData;
 import com.ssblur.scriptor.word.Spell;
+import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,13 +29,13 @@ abstract public class DictionarySavedDataMixin {
         System.out.println("hello world");
         Spell spell = ParserStore
                 .Companion
-                .getParser(scriptor_unique_grammar$self)
+                .getParser()
                 .parse(text);
         System.out.println(spell != null);
         if (spell != null) {
             String spellText = ParserStore
                     .Companion
-                    .getParser(scriptor_unique_grammar$self)
+                    .getParser()
                     .generate(spell);
             System.out.println(spellText);
         }

@@ -1,27 +1,28 @@
 package com.gmail.guitaekm.scriptor_unique_grammar
 
-import com.gmail.guitaekm.scriptor_unique_grammar.mixin.DictionarySavedDataMixin
 import com.ssblur.scriptor.data.saved_data.DictionarySavedData
-import org.spongepowered.asm.mixin.Unique
+import net.minecraft.server.MinecraftServer
+import com.ssblur.unfocused.event.common.ServerStartEvent
 
-class ParserStore(dict: DictionarySavedData) {
+class ParserStore(server: MinecraftServer) {
 
-    private val positions: WordPositions = WordPositions(dict)
     private val parser: UniqueParser = UniqueParser(
-        dict,
-        this.positions
+        DictionarySavedData.computeIfAbsent(server.overworld()),
+        WordPositions.computeIfAbsent(server)
     )
 
     companion object {
-        private var INSTANCE: ParserStore? = null
-        fun getInstance(dict: DictionarySavedData): ParserStore {
-            if (INSTANCE == null) {
-                INSTANCE = ParserStore(dict)
+        fun initializeEvents() {
+            ServerStartEvent.register {
+                server -> makeInstance(server)
             }
-            return INSTANCE!!
         }
-        fun getParser(dict: DictionarySavedData): UniqueParser {
-            return getInstance(dict).parser
+        private var INSTANCE: ParserStore? = null
+        fun makeInstance(server: MinecraftServer) {
+            INSTANCE = ParserStore(server)
+        }
+        fun getParser(): UniqueParser {
+            return INSTANCE!!.parser
         }
     }
 
