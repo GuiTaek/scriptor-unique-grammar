@@ -11,6 +11,9 @@ class ParserStore(server: MinecraftServer) {
         WordPositions.computeIfAbsent(server)
     )
 
+    private val dictionary: DictionarySavedData = DictionarySavedData
+        .computeIfAbsent(server.overworld())
+
     companion object {
         fun initializeEvents() {
             ServerStartEvent.register {
@@ -23,6 +26,9 @@ class ParserStore(server: MinecraftServer) {
         }
         fun getParser(): UniqueParser {
             return INSTANCE!!.parser
+        }
+        fun getDictionary(): DictionarySavedData {
+            return INSTANCE!!.dictionary
         }
     }
 
